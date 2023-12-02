@@ -4,8 +4,16 @@ namespace App\Controllers;
 
 use App\Config\Configuration;
 use App\Core\AControllerBase;
+use App\Core\DB\Connection;
+use App\Core\HTTPException;
+use App\Core\LinkGenerator;
 use App\Core\Responses\Response;
 use App\Core\Responses\ViewResponse;
+use App\Models\Login;
+use App\Models\PersonalDetail;
+use App\Models\Runner;
+use DateTime;
+use Exception;
 
 /**
  * Class AuthController
@@ -21,6 +29,11 @@ class AuthController extends AControllerBase
     public function index(): Response
     {
         return $this->redirect(Configuration::LOGIN_URL);
+    }
+
+    public function registracia() : Response
+    {
+        return $this->html();
     }
 
     /**
@@ -49,6 +62,110 @@ class AuthController extends AControllerBase
     public function logout(): Response
     {
         $this->app->getAuth()->logout();
-        return $this->html();
+        return $this->redirect($this->url("home.index"));
+    }
+
+    /**
+     * @throws HTTPException
+     */
+    public function register() : Response
+    {
+        $formData = $this->app->getRequest()->getPost();
+        if ($this->checkForm($formData))
+        {
+            $name = strip_tags($formData['name']);
+            $surname = strip_tags($formData['surname']);
+            $gender = strip_tags($formData['gender']);
+            $birthDate = DateTime::createFromFormat('Y-m-d', $formData['birthDate']);
+            $street = strip_tags($formData['street']);
+            $city = strip_tags($formData['city']);
+            $postalCode = str_replace(" ", "", $formData['postalCode']);
+            $email = strip_tags($formData['email']);
+            $password = htmlspecialchars($formData['password']);
+
+            $newLogin = new Login();
+            $newLogin->setLogin($email);
+            $newLogin->setPassword(password_hash($password, PASSWORD_DEFAULT));
+            $newLogin->save();
+
+            $newPersonalDetail = new PersonalDetail();
+            $newPersonalDetail->setName($name);
+            $newPersonalDetail->setSurname($surname);
+            $newPersonalDetail->setGender($gender);
+            $newPersonalDetail->setBirthDate($birthDate);
+            $newPersonalDetail->setStreet($street);
+            $newPersonalDetail->setCity($city);
+            $newPersonalDetail->setPostalCode($postalCode);
+            $newPersonalDetail->setEmail($email);
+            $newPersonalDetail->save();
+
+            $runner = new Runner();
+            $runner->setLoginsId($newLogin->getId());
+            $runner->setPersonalDetailsId($newPersonalDetail->getId());
+            $runner->save();
+        }
+        else {
+            throw new HTTPException(400, "Bad request");
+        }
+        return $this->redirect($this->url("auth.login"));
+    }
+
+    private function checkForm($formData) : bool
+    {
+        if (!isset($formData['submit'])
+            || !isset($formData['name'])
+            || !isset($formData['surname'])
+            || !isset($formData['gender'])
+            || !isset($formData['birthDate'])
+            || !isset($formData['street'])
+            || !isset($formData['city'])
+            || !isset($formData['postalCode'])
+            || !isset($formData['email'])
+            || !isset($formData['password'])
+        )
+        {
+            return false;
+        }
+
+        if (empty($formData['name'])
+            || empty($formData['surname'])
+            || empty($formData['gender'])
+            || empty($formData['birthDate'])
+            || empty($formData['street'])
+            || empty($formData['city'])
+            || empty($formData['postalCode'])
+            || empty($formData['email'])
+            || empty($formData['password'])
+        )
+        {
+            return false;
+        }
+
+        $gender = $formData['gender'];
+        if ($gender !== "female" && $gender !== "male" && $gender !== "other")
+        {
+            return false;
+        }
+
+        $birthDate = DateTime::createFromFormat('Y-m-d', $formData['birthDate']);
+        if (!$birthDate || $birthDate->format('Y-m-d') !== $formData['birthDate'])
+        {
+            return false;
+        }
+
+        $postalCode = $formData['postalCode'];
+        if (!preg_match('/\d{3} ?\d{2}$/', $postalCode))
+        {
+            return false;
+        }
+
+        $email = $formData['email'];
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL))
+        {
+            return false;
+        }
+
+        return true;
     }
 }
+
