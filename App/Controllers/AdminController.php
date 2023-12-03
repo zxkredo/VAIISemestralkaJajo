@@ -19,7 +19,8 @@ class AdminController extends AControllerBase
      */
     public function authorize($action)
     {
-        return $this->app->getAuth()->isLogged();
+        //TODO only admins will be able to log in
+        return false;
     }
 
     /**
