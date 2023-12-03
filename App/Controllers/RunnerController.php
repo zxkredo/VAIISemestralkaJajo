@@ -51,6 +51,11 @@ class RunnerController extends AControllerBase
         throw new HTTPException(500, "Not implemented");
     }
 
+    public function unregister() : Response
+    {
+        throw new HTTPException(500, "Not implemented");
+    }
+
     public function nastavenia() : Response
     {
         $loggedRunner= Runner::getByLoginId($this->app->getAuth()->getLoggedUserId());
