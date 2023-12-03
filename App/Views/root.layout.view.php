@@ -41,6 +41,7 @@
                     <li class="nav-item"><a href="<?= \App\Config\Configuration::LOGIN_URL ?>" class="nav-link">Prihlásenie</a></li>
                 <?php endif;?>
                 <?php if ($auth->isLogged()) : ?>
+                    <li class="nav-item"><a href="<?= $link->url("runner.nastavenia")?>" class="nav-link">Nastavenia</a></li>
                     <li class="nav-item"><a href="<?= $link->url("auth.logout") ?>" class="nav-link">Odhlásiť</a></li>
                 <?php endif;?>
             </ul>
