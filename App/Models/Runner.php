@@ -39,5 +39,17 @@ class Runner extends Model
     {
         $this->personalDetails_id = $personalDetails_id;
     }
-
+    public static function getByLoginId(int $logins_id) : ?Runner
+    {
+        //$logins_id is FK, should never return more than 1
+        $runners = self::getAll('logins_id=?', [$logins_id]);
+        if (empty($runners))
+        {
+            return null;
+        }
+        else
+        {
+            return $runners[0];
+        }
+    }
 }
