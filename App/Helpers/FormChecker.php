@@ -75,14 +75,14 @@ class FormChecker
     {
         if (!is_null($name))
         {
-            $name = strip_tags($formData['name']);
+            $name = trim(strip_tags($formData['name']));
         }
         if (!is_null($formData['surname'])) {
-            $surname = strip_tags($formData['surname']);
+            $surname = trim(strip_tags($formData['surname']));
         }
 
         if (!is_null($formData['gender'])) {
-            $gender = strip_tags($formData['gender']);
+            $gender = trim(strip_tags($formData['gender']));
         }
 
         if (!is_null($formData['birthDate'])) {
@@ -90,11 +90,11 @@ class FormChecker
         }
 
         if (!is_null($formData['street'])) {
-            $street = strip_tags($formData['street']);
+            $street = trim(strip_tags($formData['street']));
         }
 
         if (!is_null($formData['city'])) {
-            $city = strip_tags($formData['city']);
+            $city = trim(strip_tags($formData['city']));
         }
 
         if (!is_null($formData['postalCode'])) {
@@ -102,7 +102,7 @@ class FormChecker
         }
 
         if (!is_null($formData['email'])) {
-            $email = strip_tags($formData['email']);
+            $email = trim(strip_tags($formData['email']));
         }
 
         if (!is_null($formData['password'])) {
