@@ -74,16 +74,7 @@ class AuthController extends AControllerBase
         $formData = $this->app->getRequest()->getPost();
         if (FormChecker::checkPersonalDetailForm($formData))
         {
-            $name = strip_tags($formData['name']);
-            $surname = strip_tags($formData['surname']);
-            $gender = strip_tags($formData['gender']);
-            $birthDate = DateTime::createFromFormat('Y-m-d', $formData['birthDate']);
-            $street = strip_tags($formData['street']);
-            $city = strip_tags($formData['city']);
-            $postalCode = str_replace(" ", "", $formData['postalCode']);
-            $email = strip_tags($formData['email']);
-            $password = htmlspecialchars($formData['password']);
-
+            FormChecker::sanitize($formData, $name, $surname, $gender, $birthDate, $street, $city, $postalCode, $email, $password);
             $newLogin = new Login();
             $newLogin->setLogin($email);
             $newLogin->setPassword(password_hash($password, PASSWORD_DEFAULT));
