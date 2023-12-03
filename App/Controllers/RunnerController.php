@@ -5,6 +5,9 @@ namespace App\Controllers;
 use App\Core\AControllerBase;
 use App\Core\HTTPException;
 use App\Core\Responses\Response;
+use App\Models\Login;
+use App\Models\PersonalDetail;
+use App\Models\Runner;
 
 class RunnerController extends AControllerBase
 {
@@ -25,7 +28,17 @@ class RunnerController extends AControllerBase
      */
     public function index(): Response
     {
-        return $this->html();
+        $loggedRunner= Runner::getByLoginId($this->app->getAuth()->getLoggedUserId());
+        if (is_null($loggedRunner))
+        {
+            throw new HTTPException(403, "Unauthorized");
+        }
+        $personalDetail = PersonalDetail::getOne($loggedRunner->getPersonalDetailsId());
+        return $this->html(
+            [
+                'personalDetail' => $personalDetail
+            ]
+        );
     }
 
     public function updatePersonalDetail() : Response
