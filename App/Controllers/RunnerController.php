@@ -53,7 +53,16 @@ class RunnerController extends AControllerBase
 
     public function unregister() : Response
     {
-        throw new HTTPException(500, "Not implemented");
+        $formData = $this->app->getRequest()->getPost();
+        if (!isset($formData['submit']))
+        {
+            throw new HTTPException(400, "Bad request");
+        }
+
+        $runner = Runner::getByLoginId($this->app->getAuth()->getLoggedUserId());
+        $runner->unregister();
+        $this->app->getAuth()->logout();
+        return $this->redirect($this->url("home.index"));
     }
 
     public function nastavenia() : Response
