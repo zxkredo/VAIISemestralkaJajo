@@ -51,14 +51,12 @@ class FormChecker
         if (self::checkSubmit($formData)
             ||!isset($formData['password'])
             || !isset($formData['email'])
-            || !isset($formData['gender'])
         ) {
             return false;
         }
 
         if (empty($formData['email'])
             || empty($formData['password'])
-            || empty($formData['gender'])
         ) {
             return false;
         }
