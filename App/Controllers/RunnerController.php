@@ -67,14 +67,25 @@ class RunnerController extends AControllerBase
 
     public function updateLogin() : Response
     {
+        $formData = $this->app->getRequest()->getPost();
+        if (FormChecker::checkUpdateLoginForm($formData)) {
+            FormChecker::sanitizeUpdateLogin($formData,  $email, $password,);
+            $login = Login::getOne($this->app->getAuth()->getLoggedUserId());
+            $login->setLogin($email);
+            $login->setPassword(password_hash($password, PASSWORD_DEFAULT));
+            $login->save();
+        }
+        else {
+            throw new HTTPException(400, "Bad request");
+        }
 
-        throw new HTTPException(500, "Not implemented");
+        return $this->redirect($this->url("runner.nastavenia"));
     }
 
     public function unregister() : Response
     {
         $formData = $this->app->getRequest()->getPost();
-        if (!isset($formData['submit']))
+        if (FormChecker::checkSubmit($formData))
         {
             throw new HTTPException(400, "Bad request");
         }
