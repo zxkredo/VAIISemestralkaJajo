@@ -79,6 +79,10 @@ class PersonalDetail extends Model
         $this->birthDate = $birthDate->format('Y-m-d H:i:s');
     }
 
+    public function getHtmlBirthDate() : string
+    {
+        return $this->getBirthDate()->format('Y-m-d');
+    }
     public function getStreet(): string
     {
         return $this->street;
@@ -108,6 +112,5 @@ class PersonalDetail extends Model
     {
         $this->postalCode = $postalCode;
     }
-
 
 }
