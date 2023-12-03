@@ -71,9 +71,9 @@ class FormChecker
         return self::checkPersonalDetailFormWithoutPassword($formData);
     }
 
-    public static function sanitize($formData, &$name = null, &$surname= null, &$gender= null, &$birthDate= null, &$street= null, &$city= null, &$postalCode= null, &$email= null, &$password= null)
+    public static function sanitize($formData, &$name, &$surname, &$gender, &$birthDate, &$street, &$city, &$postalCode, &$email, &$password) : void
     {
-        if (!is_null($name))
+        if (!is_null($formData['surname']))
         {
             $name = trim(strip_tags($formData['name']));
         }
