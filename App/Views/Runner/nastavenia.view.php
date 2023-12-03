@@ -64,7 +64,7 @@ $personalDetail = $data['personalDetail'];
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-end pt-3">
-                                            <button name="submit" id="submitButton" type="submit" class="btn btn-warning btn-lg ms-2">Upraviť</button>
+                                            <button name="submit" id="submitButton1" type="submit" class="btn btn-warning btn-lg ms-2">Upraviť</button>
                                         </div>
                                     </div>
                                 </form>
@@ -91,7 +91,7 @@ $personalDetail = $data['personalDetail'];
                                         </div>
                                         <span id="error" class="alert alert-danger" hidden></span>
                                         <div class="d-flex justify-content-end pt-3">
-                                            <button name="submit" id="submitButton" type="submit" class="btn btn-warning btn-lg ms-2">Upraviť</button>
+                                            <button name="submit" id="submitButton2" type="submit" class="btn btn-warning btn-lg ms-2">Upraviť</button>
                                         </div>
                                     </div>
                                 </form>
@@ -101,7 +101,7 @@ $personalDetail = $data['personalDetail'];
                     </div>
                     <div class="row g-0 d-flex justify-content-center">
                         <form id="deleteForm" class="row g-3 needs-validation" method="post" action="<?= $link->url("unregister") ?>">
-                            <button name="submit" id="submitButton" type="submit" class="btn btn-danger btn-lg ms-2">Odstrániť účet</button>
+                            <button name="submit" id="submitButton3" type="submit" class="btn btn-danger btn-lg ms-2">Odstrániť účet</button>
                         </form>
                     </div>
                 </div>
