@@ -42,9 +42,8 @@ class FormChecker
 
         return true;
     }
-    public static function checkAllPersonalDetailForm($formData): bool
+    public static function checkUpdateLoginForm($formData): bool
     {
-
         if (!isset($formData['password'])
             || !isset($formData['email'])
             || !isset($formData['gender'])
@@ -59,16 +58,41 @@ class FormChecker
             return false;
         }
 
+        $email = $formData['email'];
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return false;
+        }
+        return true;
+    }
+    public static function checkAllPersonalDetailForm($formData): bool
+    {
+        if (!isset($formData['gender'])
+        ) {
+            return false;
+        }
+
+        if (empty($formData['gender'])
+        ) {
+            return false;
+        }
+
         $gender = $formData['gender'];
         if ($gender !== "female" && $gender !== "male" && $gender !== "other") {
             return false;
         }
 
-        $email = $formData['email'];
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return false;
+        return self::checkUpdateLoginForm($formData) && self::checkUpdatePersonalDetailForm($formData);
+    }
+    public static function sanitizeUpdateLogin($formData, &$email, &$password) : void
+    {
+
+        if (!is_null($formData['password'])) {
+            $password = htmlspecialchars($formData['password']);
         }
-        return self::checkUpdatePersonalDetailForm($formData);
+
+        if (!is_null($formData['email'])) {
+            $email = trim(strip_tags($formData['email']));
+        }
     }
     public static function sanitizeUpdatePersonalDetail($formData, &$name, &$surname, &$birthDate, &$street, &$city, &$postalCode) : void
     {
@@ -100,17 +124,10 @@ class FormChecker
     public static function sanitizeAll($formData, &$name, &$surname, &$gender, &$birthDate, &$street, &$city, &$postalCode, &$email, &$password) : void
     {
         self::sanitizeUpdatePersonalDetail($formData, $name, $surname, $birthDate, $street, $city, $postalCode);
+        self::sanitizeUpdateLogin($formData, $email, $password);
 
         if (!is_null($formData['gender'])) {
             $gender = trim(strip_tags($formData['gender']));
-        }
-
-        if (!is_null($formData['password'])) {
-            $password = htmlspecialchars($formData['password']);
-        }
-
-        if (!is_null($formData['email'])) {
-            $email = trim(strip_tags($formData['email']));
         }
     }
 }
