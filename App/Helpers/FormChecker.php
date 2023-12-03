@@ -6,9 +6,13 @@ use DateTime;
 
 class FormChecker
 {
+    public static function checkSubmit($formData) : bool
+    {
+        return !isset($formData['submit']);
+    }
     public static function checkUpdatePersonalDetailForm($formData): bool
     {
-        if (!isset($formData['submit'])
+        if (self::checkSubmit($formData)
             || !isset($formData['name'])
             || !isset($formData['surname'])
             || !isset($formData['birthDate'])
@@ -44,7 +48,8 @@ class FormChecker
     }
     public static function checkUpdateLoginForm($formData): bool
     {
-        if (!isset($formData['password'])
+        if (self::checkSubmit($formData)
+            ||!isset($formData['password'])
             || !isset($formData['email'])
             || !isset($formData['gender'])
         ) {
@@ -85,7 +90,6 @@ class FormChecker
     }
     public static function sanitizeUpdateLogin($formData, &$email, &$password) : void
     {
-
         if (!is_null($formData['password'])) {
             $password = htmlspecialchars($formData['password']);
         }
