@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Core\AControllerBase;
+use App\Core\HTTPException;
 use App\Core\Responses\Response;
 
 class RunnerController extends AControllerBase
@@ -25,5 +26,15 @@ class RunnerController extends AControllerBase
     public function index(): Response
     {
         return $this->html();
+    }
+
+    public function updatePersonalDetail() : Response
+    {
+        throw new HTTPException(500, "Not implemented");
+    }
+
+    public function updateLogin() : Response
+    {
+        throw new HTTPException(500, "Not implemented");
     }
 }
