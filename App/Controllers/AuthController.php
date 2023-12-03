@@ -72,9 +72,9 @@ class AuthController extends AControllerBase
     public function register() : Response
     {
         $formData = $this->app->getRequest()->getPost();
-        if (FormChecker::checkPersonalDetailForm($formData))
+        if (FormChecker::checkAllPersonalDetailForm($formData))
         {
-            FormChecker::sanitize($formData, $name, $surname, $gender, $birthDate, $street, $city, $postalCode, $email, $password);
+            FormChecker::sanitizeAll($formData, $name, $surname, $gender, $birthDate, $street, $city, $postalCode, $email, $password);
             $newLogin = new Login();
             $newLogin->setLogin($email);
             $newLogin->setPassword(password_hash($password, PASSWORD_DEFAULT));
