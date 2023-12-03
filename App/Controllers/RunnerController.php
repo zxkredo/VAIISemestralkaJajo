@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Core\AControllerBase;
 use App\Core\HTTPException;
 use App\Core\Responses\Response;
+use App\Helpers\FormChecker;
 use App\Models\Login;
 use App\Models\PersonalDetail;
 use App\Models\Runner;
@@ -43,11 +44,30 @@ class RunnerController extends AControllerBase
 
     public function updatePersonalDetail() : Response
     {
-        throw new HTTPException(500, "Not implemented");
+        $formData = $this->app->getRequest()->getPost();
+        if (FormChecker::checkUpdatePersonalDetailForm($formData))
+        {
+            FormChecker::sanitizeUpdatePersonalDetail($formData, $name, $surname, $birthDate, $street, $city, $postalCode);
+
+            $runner = Runner::getByLoginId($this->app->getAuth()->getLoggedUserId());
+            $personalDetail = PersonalDetail::getOne($runner->getPersonalDetailsId());
+            $personalDetail->setName($name);
+            $personalDetail->setSurname($surname);
+            $personalDetail->setBirthDate($birthDate);
+            $personalDetail->setStreet($street);
+            $personalDetail->setCity($city);
+            $personalDetail->setPostalCode($postalCode);
+            $personalDetail->save();
+        }
+        else {
+            throw new HTTPException(400, "Bad request");
+        }
+        return $this->redirect($this->url("runner.nastavenia"));
     }
 
     public function updateLogin() : Response
     {
+
         throw new HTTPException(500, "Not implemented");
     }
 
