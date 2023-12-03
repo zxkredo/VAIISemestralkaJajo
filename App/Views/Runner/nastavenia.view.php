@@ -63,8 +63,6 @@ $personalDetail = $data['personalDetail'];
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <span id="error" class="alert alert-danger" hidden></span>
                                         <div class="d-flex justify-content-end pt-3">
                                             <button name="submit" id="submitButton" type="submit" class="btn btn-warning btn-lg ms-2">Upraviť</button>
                                         </div>
@@ -73,7 +71,7 @@ $personalDetail = $data['personalDetail'];
                             </div>
 
                             <div class="col-xl-6">
-                                <form id="loginForm" class="row g-3 needs-validation" method="post" action="<?= $link->url("updateLogin") ?>">
+                                <form id="runnerForm" class="row g-3 needs-validation" method="post" action="<?= $link->url("updateLogin") ?>">
                                     <div class="card-body p-md-5 text-black">
                                         <h3 class="mb-5 text-uppercase">Úprava loginu</h3>
                                         <div class="row">
@@ -102,7 +100,7 @@ $personalDetail = $data['personalDetail'];
                         </div>
                     </div>
                     <div class="row g-0 d-flex justify-content-center">
-                        <form id="runnerForm" class="row g-3 needs-validation" method="post" action="<?= $link->url("unregister") ?>">
+                        <form id="deleteForm" class="row g-3 needs-validation" method="post" action="<?= $link->url("unregister") ?>">
                             <button name="submit" id="submitButton" type="submit" class="btn btn-danger btn-lg ms-2">Odstrániť účet</button>
                         </form>
                     </div>
