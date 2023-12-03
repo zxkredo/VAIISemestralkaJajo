@@ -52,4 +52,13 @@ class Runner extends Model
             return $runners[0];
         }
     }
+
+    public function unregister() : void
+    {
+        $personalDetail = PersonalDetail::getOne($this->personalDetails_id);
+        $login = Login::getOne($this->logins_id);
+        $this->delete();
+        $personalDetail->delete();
+        $login->delete();
+    }
 }
