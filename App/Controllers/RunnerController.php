@@ -5,13 +5,9 @@ namespace App\Controllers;
 use App\Core\AControllerBase;
 use App\Core\Responses\Response;
 
-/**
- * Class HomeController
- * Example class of a controller
- * @package App\Controllers
- */
-class AdminController extends AControllerBase
+class RunnerController extends AControllerBase
 {
+
     /**
      * Authorize controller actions
      * @param $action
@@ -19,8 +15,7 @@ class AdminController extends AControllerBase
      */
     public function authorize($action)
     {
-        //TODO only admins will be able to log in
-        return false;
+        return $this->app->getAuth()->isLogged();
     }
 
     /**
