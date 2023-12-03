@@ -71,16 +71,42 @@ class FormChecker
         return self::checkPersonalDetailFormWithoutPassword($formData);
     }
 
-    public static function sanitize($formData, &$name, &$surname, &$gender, &$birthDate, &$street, &$city, &$postalCode, &$email, &$password)
+    public static function sanitize($formData, &$name = null, &$surname= null, &$gender= null, &$birthDate= null, &$street= null, &$city= null, &$postalCode= null, &$email= null, &$password= null)
     {
-        $name = strip_tags($formData['name']);
-        $surname = strip_tags($formData['surname']);
-        $gender = strip_tags($formData['gender']);
-        $birthDate = DateTime::createFromFormat('Y-m-d', $formData['birthDate']);
-        $street = strip_tags($formData['street']);
-        $city = strip_tags($formData['city']);
-        $postalCode = str_replace(" ", "", $formData['postalCode']);
-        $email = strip_tags($formData['email']);
-        $password = htmlspecialchars($formData['password']);
+        if (!is_null($name))
+        {
+            $name = strip_tags($formData['name']);
+        }
+        if (!is_null($formData['surname'])) {
+            $surname = strip_tags($formData['surname']);
+        }
+
+        if (!is_null($formData['gender'])) {
+            $gender = strip_tags($formData['gender']);
+        }
+
+        if (!is_null($formData['birthDate'])) {
+            $birthDate = DateTime::createFromFormat('Y-m-d', $formData['birthDate']);
+        }
+
+        if (!is_null($formData['street'])) {
+            $street = strip_tags($formData['street']);
+        }
+
+        if (!is_null($formData['city'])) {
+            $city = strip_tags($formData['city']);
+        }
+
+        if (!is_null($formData['postalCode'])) {
+            $postalCode = str_replace(" ", "", $formData['postalCode']);
+        }
+
+        if (!is_null($formData['email'])) {
+            $email = strip_tags($formData['email']);
+        }
+
+        if (!is_null($formData['password'])) {
+            $password = htmlspecialchars($formData['password']);
+        }
     }
 }
