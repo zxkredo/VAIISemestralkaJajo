@@ -20,7 +20,7 @@ CREATE TABLE logins
     PRIMARY KEY (id)
 );
 
-#Fiiling up tables with test values
+#Fiiling up tables with test values, admin test password is jeff
 insert into logins(login, password, name, surname, gender, birthDate, street, city, postalCode)
-values ('admin@admin.com', 'admin', 'Jeff', 'Landshark', 'other', '2000-12-12 09:32:24', 'Luke\'s Bar', 'Gotham', '01112');
+values ('admin@admin.com', '$2y$10$h1.H9qYm92hDGy6./SWzOOGSZO2M1taKn6Wm1YTrLmBJ8/uNwkV.m', 'Jeff', 'Landshark', 'other', '2000-12-12 09:32:24', 'Luke\'s Bar', 'Gotham', '01112');
 
