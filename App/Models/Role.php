@@ -40,5 +40,16 @@ class Role extends Model
         $this->description = $description;
     }
 
-
+    public static function getRoleByName(string $name) : ?Role {
+        //name is unique so should never return more than 1
+        $roles = self::getAll('name=\'?\'', [$name]);
+        if (empty($runners))
+        {
+            return null;
+        }
+        else
+        {
+            return $runners[0];
+        }
+    }
 }
