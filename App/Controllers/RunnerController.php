@@ -8,8 +8,6 @@ use App\Core\Responses\Response;
 use App\Helpers\FormChecker;
 use App\Helpers\PermissionChecker;
 use App\Models\Login;
-use App\Models\PersonalDetail;
-use App\Models\Runner;
 use App\Models\UserRole;
 
 class RunnerController extends AControllerBase
