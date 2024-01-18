@@ -2,16 +2,16 @@
 
 /** @var \App\Core\IAuthenticator $auth */
 /** @var Array $data */
-/** @var \App\Models\PersonalDetail $personalDetail */
+/** @var \App\Models\Login $login */
 /** @var \App\Core\LinkGenerator $link */
-$personalDetail = $data['personalDetail'];
+$login = $data['login'];
 ?>
 
 <div class="container-fluid">
     <div class="row">
         <div class="d-flex justify-content-center">
             <h1>
-                Vitaj, <strong><?= $personalDetail->getName() ?> <?= $personalDetail->getSurname() ?></strong>!<br><br>
+                Vitaj, <strong><?= $login->getName() ?> <?= $login->getSurname() ?></strong>!<br><br>
             </h1>
         </div>
         <div class="d-flex justify-content-center">

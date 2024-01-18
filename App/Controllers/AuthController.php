@@ -78,23 +78,16 @@ class AuthController extends AControllerBase
             $newLogin = new Login();
             $newLogin->setLogin($email);
             $newLogin->setPassword(password_hash($password, PASSWORD_DEFAULT));
+            $newLogin->setName($name);
+            $newLogin->setSurname($surname);
+            $newLogin->setGender($gender);
+            $newLogin->setBirthDate($birthDate);
+            $newLogin->setStreet($street);
+            $newLogin->setCity($city);
+            $newLogin->setPostalCode($postalCode);
             $newLogin->save();
 
-            $newPersonalDetail = new PersonalDetail();
-            $newPersonalDetail->setName($name);
-            $newPersonalDetail->setSurname($surname);
-            $newPersonalDetail->setGender($gender);
-            $newPersonalDetail->setBirthDate($birthDate);
-            $newPersonalDetail->setStreet($street);
-            $newPersonalDetail->setCity($city);
-            $newPersonalDetail->setPostalCode($postalCode);
-            $newPersonalDetail->setEmail($email);
-            $newPersonalDetail->save();
-
-            $runner = new Runner();
-            $runner->setLoginsId($newLogin->getId());
-            $runner->setPersonalDetailsId($newPersonalDetail->getId());
-            $runner->save();
+            //TODO add role to the newly registered user
         }
         else {
             throw new HTTPException(400, "Bad request");

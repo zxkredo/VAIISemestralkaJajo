@@ -10,13 +10,6 @@ CREATE TABLE logins
     id       int(11)      NOT NULL AUTO_INCREMENT,
     login    varchar(254) NOT NULL UNIQUE,
     password varchar(100) NOT NULL,
-    PRIMARY KEY (id)
-);
-
-CREATE TABLE personaldetails
-(
-    id         int(11)      NOT NULL AUTO_INCREMENT,
-    email      varchar(254) NOT NULL UNIQUE,
     name       varchar(35)  NOT NULL,
     surname    varchar(35)  NOT NULL,
     gender     varchar(10)  NOT NULL,
@@ -27,35 +20,7 @@ CREATE TABLE personaldetails
     PRIMARY KEY (id)
 );
 
-CREATE TABLE runners
-(
-    id                 int(11) NOT NULL AUTO_INCREMENT,
-    logins_id          int(11) NOT NULL,
-    personalDetails_id int(11) NOT NULL,
-
-    PRIMARY KEY (id),
-
-    foreign key (logins_id)
-        references logins (id),
-    foreign key (personalDetails_id)
-        references personaldetails (id)
-);
-
-CREATE TABLE admins
-(
-    id        int(11) NOT NULL AUTO_INCREMENT,
-    logins_id int(11) NOT NULL,
-
-    PRIMARY KEY (id),
-
-    foreign key (logins_id)
-        references logins (id)
-);
-
 #Fiiling up tables with test values
-insert into logins(login, password)
-values ('admin', 'admin');
-
-insert into admins(logins_id)
-values (1);
+insert into logins(login, password, name, surname, gender, birthDate, street, city, postalCode)
+values ('admin@admin.com', 'admin', 'Jeff', 'Landshark', 'other', '2000-12-1209:32:24', 'Luke\'s Bar', 'Gotham', '01112');
 
