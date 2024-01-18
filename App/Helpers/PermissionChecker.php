@@ -13,6 +13,9 @@ class PermissionChecker
     public static function isAdmin(Login $login) : bool {
         return UserRole::hasRole($login, Role::getRoleByName('administrator'));
     }
+    public static function isRunner(Login $login) : bool {
+        return UserRole::hasRole($login, Role::getRoleByName('runner'));
+    }
     public static function canDeleteAccount(Login $login) : bool {
         $userRoles = UserRole::getAllRolesOfUser($login);
         foreach ($userRoles as $role)
