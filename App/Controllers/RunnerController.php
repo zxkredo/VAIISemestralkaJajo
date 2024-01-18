@@ -9,6 +9,7 @@ use App\Helpers\FormChecker;
 use App\Models\Login;
 use App\Models\PersonalDetail;
 use App\Models\Runner;
+use App\Models\UserRole;
 
 class RunnerController extends AControllerBase
 {
@@ -89,7 +90,7 @@ class RunnerController extends AControllerBase
         }
 
         $login = Login::getOne($this->app->getAuth()->getLoggedUserId());
-        //TODO remove user roles
+        UserRole::removeAllRolesFromUser($login);
         $login->delete();
         $this->app->getAuth()->logout();
         return $this->redirect($this->url("home.index"));
