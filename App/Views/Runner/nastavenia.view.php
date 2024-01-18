@@ -22,7 +22,7 @@ $login = $data['login'];
                             <div class="col-xl-6">
                                 <form id="personalDetailForm" class="row g-3 needs-validation" method="post" action="<?= $link->url("updatePersonalDetail") ?>">
                                     <div class="card-body p-md-5 text-black">
-                                        <h3 class="mb-5 text-uppercase">Úprava osobných údajov bežca</h3>
+                                        <h3 class="mb-5 text-uppercase">Úprava osobných údajov<?php if(\App\Helpers\PermissionChecker::isRunner($login)) : ?> bežca<?php endif;?></h3>
                                         <div class="row">
                                             <div class="col-md-6 mb-4">
                                                 <div class="form-outline">
@@ -99,11 +99,13 @@ $login = $data['login'];
 
                         </div>
                     </div>
-                    <div class="row g-0 d-flex justify-content-center">
-                        <form id="deleteForm" class="row g-3 needs-validation" method="post" action="<?= $link->url("unregister") ?>">
-                            <button name="submit" id="submitButton3" type="submit" class="btn btn-danger btn-lg ms-2">Odstrániť účet</button>
-                        </form>
-                    </div>
+                    <?php if (\App\Helpers\PermissionChecker::canDeleteAccount($login)) : ?>
+                        <div class="row g-0 d-flex justify-content-center">
+                            <form id="deleteForm" class="row g-3 needs-validation" method="post" action="<?= $link->url("unregister") ?>">
+                                <button name="submit" id="submitButton3" type="submit" class="btn btn-danger btn-lg ms-2">Odstrániť účet</button>
+                            </form>
+                        </div>
+                    <?php endif;?>
                 </div>
             </div>
         </div>
