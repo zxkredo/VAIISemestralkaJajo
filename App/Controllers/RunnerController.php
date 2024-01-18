@@ -99,10 +99,7 @@ class RunnerController extends AControllerBase
     public function nastavenia() : Response
     {
         $loggedRunner= Runner::getByLoginId($this->app->getAuth()->getLoggedUserId());
-        if (is_null($loggedRunner))
-        {
-            throw new HTTPException(403, "Unauthorized");
-        }
+
         $personalDetail = PersonalDetail::getOne($loggedRunner->getPersonalDetailsId());
         return $this->html(
             [
