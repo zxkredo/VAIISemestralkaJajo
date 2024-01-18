@@ -70,7 +70,7 @@ class UserRole extends Model
      */
     public static function tryRemoveRoleFromUser(Login $login, Role $role) : bool
     {
-        $userUserRoles = static::getAll('logins_id=?', [$login->getId()]);
+        $userUserRoles = static::getAll('login_id=?', [$login->getId()]);
         foreach ($userUserRoles as $userUserRole)
         {
             if ($userUserRole->role_id == $role->getId())
@@ -90,7 +90,7 @@ class UserRole extends Model
      */
     public static function getAllRolesOfUser(Login $login) : array
     {
-        $userUserRoles = static::getAll('logins_id=?', [$login->getId()]);
+        $userUserRoles = static::getAll('login_id=?', [$login->getId()]);
         $userRolesOutput = array();
         foreach ($userUserRoles as $userUserRole)
         {
@@ -107,7 +107,7 @@ class UserRole extends Model
      */
     public static function removeAllRolesFromUser(Login $login): void
     {
-        $userUserRoles = static::getAll('logins_id=?', [$login->getId()]);
+        $userUserRoles = static::getAll('login_id=?', [$login->getId()]);
         foreach ($userUserRoles as $userUserRole)
         {
             $userUserRole->delete();
