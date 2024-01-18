@@ -42,14 +42,14 @@ class Role extends Model
 
     public static function getRoleByName(string $name) : ?Role {
         //name is unique so should never return more than 1
-        $roles = self::getAll('name=\'?\'', [$name]);
-        if (empty($runners))
+        $roles = self::getAll('name=?', [$name]);
+        if (empty($roles))
         {
             return null;
         }
         else
         {
-            return $runners[0];
+            return $roles[0];
         }
     }
 }
