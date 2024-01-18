@@ -1,3 +1,10 @@
+#deleting tables if they exist
+drop table IF EXISTS admins;
+drop table IF EXISTS runners;
+drop table IF EXISTS personaldetails;
+drop table IF EXISTS logins;
+
+#creating database tables
 CREATE TABLE logins
 (
     id       int(11)      NOT NULL AUTO_INCREMENT,
@@ -45,13 +52,10 @@ CREATE TABLE admins
         references logins (id)
 );
 
-# insert into logins(login, password)
-# values ('admin', 'admin');
-#
-# insert into admins(logins_id)
-# values (1);
+#Fiiling up tables with test values
+insert into logins(login, password)
+values ('admin', 'admin');
 
-# drop table admins;
-# drop table runners;
-# drop table personaldetails;
-# drop table logins;
+insert into admins(logins_id)
+values (1);
+
