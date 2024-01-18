@@ -11,8 +11,8 @@ use App\Core\Responses\Response;
 use App\Core\Responses\ViewResponse;
 use App\Helpers\FormChecker;
 use App\Models\Login;
-use App\Models\PersonalDetail;
-use App\Models\Runner;
+use App\Models\Role;
+use App\Models\UserRole;
 use DateTime;
 use Exception;
 
@@ -72,29 +72,25 @@ class AuthController extends AControllerBase
     public function register() : Response
     {
         $formData = $this->app->getRequest()->getPost();
-        if (FormChecker::checkAllPersonalDetailForm($formData))
-        {
+        if (FormChecker::checkAllPersonalDetailForm($formData)) {
             FormChecker::sanitizeAll($formData, $name, $surname, $gender, $birthDate, $street, $city, $postalCode, $email, $password);
             $newLogin = new Login();
             $newLogin->setLogin($email);
             $newLogin->setPassword(password_hash($password, PASSWORD_DEFAULT));
+            $newLogin->setName($name);
+            $newLogin->setSurname($surname);
+            $newLogin->setGender($gender);
+            $newLogin->setBirthDate($birthDate);
+            $newLogin->setStreet($street);
+            $newLogin->setCity($city);
+            $newLogin->setPostalCode($postalCode);
             $newLogin->save();
 
-            $newPersonalDetail = new PersonalDetail();
-            $newPersonalDetail->setName($name);
-            $newPersonalDetail->setSurname($surname);
-            $newPersonalDetail->setGender($gender);
-            $newPersonalDetail->setBirthDate($birthDate);
-            $newPersonalDetail->setStreet($street);
-            $newPersonalDetail->setCity($city);
-            $newPersonalDetail->setPostalCode($postalCode);
-            $newPersonalDetail->setEmail($email);
-            $newPersonalDetail->save();
-
-            $runner = new Runner();
-            $runner->setLoginsId($newLogin->getId());
-            $runner->setPersonalDetailsId($newPersonalDetail->getId());
-            $runner->save();
+            if (!UserRole::trySetRoleToUser($newLogin, Role::getRoleByName('runner')))
+            {
+                $newLogin->delete();
+                throw new HTTPException(500, "Internal server error, account not created.");
+            };
         }
         else {
             throw new HTTPException(400, "Bad request");

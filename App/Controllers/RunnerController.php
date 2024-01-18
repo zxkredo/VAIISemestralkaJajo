@@ -6,9 +6,9 @@ use App\Core\AControllerBase;
 use App\Core\HTTPException;
 use App\Core\Responses\Response;
 use App\Helpers\FormChecker;
+use App\Helpers\PermissionChecker;
 use App\Models\Login;
-use App\Models\PersonalDetail;
-use App\Models\Runner;
+use App\Models\UserRole;
 
 class RunnerController extends AControllerBase
 {
@@ -29,15 +29,14 @@ class RunnerController extends AControllerBase
      */
     public function index(): Response
     {
-        $loggedRunner= Runner::getByLoginId($this->app->getAuth()->getLoggedUserId());
-        if (is_null($loggedRunner))
+        $login = Login::getOne($this->app->getAuth()->getLoggedUserId());
+        if (is_null($login))
         {
             throw new HTTPException(403, "Unauthorized");
         }
-        $personalDetail = PersonalDetail::getOne($loggedRunner->getPersonalDetailsId());
         return $this->html(
             [
-                'personalDetail' => $personalDetail
+                'login' => $login
             ]
         );
     }
@@ -49,15 +48,14 @@ class RunnerController extends AControllerBase
         {
             FormChecker::sanitizeUpdatePersonalDetail($formData, $name, $surname, $birthDate, $street, $city, $postalCode);
 
-            $runner = Runner::getByLoginId($this->app->getAuth()->getLoggedUserId());
-            $personalDetail = PersonalDetail::getOne($runner->getPersonalDetailsId());
-            $personalDetail->setName($name);
-            $personalDetail->setSurname($surname);
-            $personalDetail->setBirthDate($birthDate);
-            $personalDetail->setStreet($street);
-            $personalDetail->setCity($city);
-            $personalDetail->setPostalCode($postalCode);
-            $personalDetail->save();
+            $login = Login::getOne($this->app->getAuth()->getLoggedUserId());
+            $login->setName($name);
+            $login->setSurname($surname);
+            $login->setBirthDate($birthDate);
+            $login->setStreet($street);
+            $login->setCity($city);
+            $login->setPostalCode($postalCode);
+            $login->save();
         }
         else {
             throw new HTTPException(400, "Bad request");
@@ -90,23 +88,26 @@ class RunnerController extends AControllerBase
             throw new HTTPException(400, "Bad request");
         }
 
-        $runner = Runner::getByLoginId($this->app->getAuth()->getLoggedUserId());
-        $runner->unregister();
+        $login = Login::getOne($this->app->getAuth()->getLoggedUserId());
+
+        if (!PermissionChecker::canDeleteAccount($login))
+        {
+            throw new HTTPException(403, "Forbidden");
+        }
+
+        UserRole::removeAllRolesFromUser($login);
+        $login->delete();
         $this->app->getAuth()->logout();
         return $this->redirect($this->url("home.index"));
     }
 
     public function nastavenia() : Response
     {
-        $loggedRunner= Runner::getByLoginId($this->app->getAuth()->getLoggedUserId());
-        if (is_null($loggedRunner))
-        {
-            throw new HTTPException(403, "Unauthorized");
-        }
-        $personalDetail = PersonalDetail::getOne($loggedRunner->getPersonalDetailsId());
+        $login = Login::getOne($this->app->getAuth()->getLoggedUserId());
+
         return $this->html(
             [
-                'personalDetail' => $personalDetail
+                'login' => $login
             ]
         );
     }
