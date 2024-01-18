@@ -17,7 +17,7 @@
                         <div class="col-xl-6">
                             <form id="runnerForm" class="row g-3 needs-validation" method="post" action="<?= $link->url("register") ?>">
                                 <div class="card-body p-md-5 text-black">
-                                    <h3 class="mb-5 text-uppercase">Registácia bežca</h3>
+                                    <h3 class="mb-5 text-uppercase">Registrácia bežca</h3>
 
                                     <div class="row">
                                         <div class="col-md-6 mb-4">
