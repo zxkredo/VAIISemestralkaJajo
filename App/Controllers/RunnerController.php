@@ -6,6 +6,7 @@ use App\Core\AControllerBase;
 use App\Core\HTTPException;
 use App\Core\Responses\Response;
 use App\Helpers\FormChecker;
+use App\Helpers\PermissionChecker;
 use App\Models\Login;
 use App\Models\PersonalDetail;
 use App\Models\Runner;
@@ -90,6 +91,12 @@ class RunnerController extends AControllerBase
         }
 
         $login = Login::getOne($this->app->getAuth()->getLoggedUserId());
+
+        if (!PermissionChecker::canDeleteAccount($login))
+        {
+            throw new HTTPException(403, "Forbidden");
+        }
+
         UserRole::removeAllRolesFromUser($login);
         $login->delete();
         $this->app->getAuth()->logout();
