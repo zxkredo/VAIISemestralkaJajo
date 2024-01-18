@@ -11,8 +11,8 @@ use App\Core\Responses\Response;
 use App\Core\Responses\ViewResponse;
 use App\Helpers\FormChecker;
 use App\Models\Login;
-use App\Models\PersonalDetail;
-use App\Models\Runner;
+use App\Models\Role;
+use App\Models\UserRole;
 use DateTime;
 use Exception;
 
@@ -72,8 +72,7 @@ class AuthController extends AControllerBase
     public function register() : Response
     {
         $formData = $this->app->getRequest()->getPost();
-        if (FormChecker::checkAllPersonalDetailForm($formData))
-        {
+        if (FormChecker::checkAllPersonalDetailForm($formData)) {
             FormChecker::sanitizeAll($formData, $name, $surname, $gender, $birthDate, $street, $city, $postalCode, $email, $password);
             $newLogin = new Login();
             $newLogin->setLogin($email);
@@ -87,7 +86,11 @@ class AuthController extends AControllerBase
             $newLogin->setPostalCode($postalCode);
             $newLogin->save();
 
-            //TODO add role to the newly registered user
+            if (!UserRole::trySetRoleToUser($newLogin, Role::getRoleByName('runner')))
+            {
+                $newLogin->delete();
+                throw new HTTPException(500, "Internal server error, account not created.");
+            };
         }
         else {
             throw new HTTPException(400, "Bad request");
