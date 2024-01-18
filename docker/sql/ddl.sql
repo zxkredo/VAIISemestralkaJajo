@@ -22,5 +22,5 @@ CREATE TABLE logins
 
 #Fiiling up tables with test values
 insert into logins(login, password, name, surname, gender, birthDate, street, city, postalCode)
-values ('admin@admin.com', 'admin', 'Jeff', 'Landshark', 'other', '2000-12-1209:32:24', 'Luke\'s Bar', 'Gotham', '01112');
+values ('admin@admin.com', 'admin', 'Jeff', 'Landshark', 'other', '2000-12-12 09:32:24', 'Luke\'s Bar', 'Gotham', '01112');
 
