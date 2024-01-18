@@ -39,4 +39,41 @@ class RolePermission extends Model
     {
         $this->permission_id = $permission_id;
     }
+
+    /**
+     * Returns array of permissions of provided role
+     * @param Role $role
+     * @return Permission[]
+     * @throws \Exception
+     */
+    public static function getAllPermissionsOfRole(Role $role) : array
+    {
+        $rolePermissions = static::getAll('role_id=?', [$role->getId()]);
+        $rolePermissionsOutput = array();
+        foreach ($rolePermissions as $rolePermission)
+        {
+            $rolePermissionsOutput[] = Permission::getOne($rolePermission->getPermissionId());
+        }
+        return $rolePermissionsOutput;
+    }
+
+    /**
+     * Returns true if role has provided permission
+     * @param Role $role
+     * @param Permission $permissionToCheck
+     * @return bool
+     * @throws \Exception
+     */
+    public static function hasRolePermission(Role $role, Permission $permissionToCheck) : bool
+    {
+        $permissions = static::getAllPermissionsOfRole($role);
+        foreach ($permissions as $permission)
+        {
+            if ($permission->getId() == $permissionToCheck->getId())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }

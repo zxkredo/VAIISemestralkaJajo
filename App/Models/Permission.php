@@ -40,5 +40,16 @@ class Permission extends Model
         $this->description = $description;
     }
 
-
+    public static function getPermissionByName(string $name) : ?Permission {
+        //name is unique so should never return more than 1
+        $permissions = self::getAll('name=?', [$name]);
+        if (empty($permissions))
+        {
+            return null;
+        }
+        else
+        {
+            return $permissions[0];
+        }
+    }
 }
