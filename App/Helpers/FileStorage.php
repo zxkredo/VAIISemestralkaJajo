@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 use App\Core\HTTPException;
+use Exception;
 
 //Taken from https://github.com/thevajko/cv-06/blob/solution/App/Helpers/FileStorage.php
 class FileStorage
