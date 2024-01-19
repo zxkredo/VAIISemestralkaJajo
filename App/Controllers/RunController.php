@@ -10,6 +10,7 @@ use App\Helpers\FormChecker;
 use App\Helpers\PermissionChecker;
 use App\Models\Login;
 use App\Models\Run;
+use App\Models\RunParticipant;
 
 class RunController extends AControllerBase
 {
@@ -195,13 +196,61 @@ class RunController extends AControllerBase
             'run' => $run
         ]);
     }
+
+    /**
+     * @throws HTTPException
+     * @throws \Exception
+     */
     public function join(): Response
     {
-        throw new HTTPException(500, 'Not implemented.');
+        $formData = $this->app->getRequest()->getPost();
+
+        if (!FormChecker::checkSubmit($formData)) {
+            throw new HTTPException(400, "Bad request");
+        }
+
+        if (!FormChecker::checkRunId($formData)) {
+            throw new HTTPException(400, "Bad request");
+        }
+
+        if (!self::tryGetRun($formData, $run)) {
+            throw new HTTPException(400, "Bad request");
+        }
+
+        if (!RunParticipant::tryJoinRun(Login::getOne($this->app->getAuth()->getLoggedUserId()),$run))
+        {
+            throw new HTTPException(400, "Bad request, already joined run");
+        }
+
+        return $this->redirect($this->url("run.index"));
     }
+
+    /**
+     * @throws HTTPException
+     * @throws \Exception
+     */
     public function leave(): Response
     {
-        throw new HTTPException(500, 'Not implemented.');
+        $formData = $this->app->getRequest()->getPost();
+
+        if (!FormChecker::checkSubmit($formData)) {
+            throw new HTTPException(400, "Bad request");
+        }
+
+        if (!FormChecker::checkRunId($formData)) {
+            throw new HTTPException(400, "Bad request");
+        }
+
+        if (!self::tryGetRun($formData, $run)) {
+            throw new HTTPException(400, "Bad request");
+        }
+
+        if (!RunParticipant::tryLeaveRun(Login::getOne($this->app->getAuth()->getLoggedUserId()),$run))
+        {
+            throw new HTTPException(400, "Bad request, cannot leave run in which not participating");
+        }
+
+        return $this->redirect($this->url("run.index"));
     }
 
     private static function tryGetRun(array $formData, ?Run &$run) : bool
