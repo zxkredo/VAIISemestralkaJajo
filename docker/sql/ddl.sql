@@ -7,6 +7,7 @@ drop table IF EXISTS roles;
 drop table IF EXISTS permissions;
 drop table IF EXISTS rolepermissions;
 drop table IF EXISTS userroles;
+drop table IF EXISTS runs;
 
 #creating database tables
 CREATE TABLE logins
@@ -62,6 +63,21 @@ CREATE TABLE rolepermissions
         references roles (id),
     foreign key (permission_id)
         references permissions (id)
+);
+
+CREATE TABLE runs
+(
+    id             int(11)       NOT NULL AUTO_INCREMENT,
+    organiser_id   int(11)       NOT NULL,
+    name           varchar(100)  NOT NULL,
+    location       varchar(300)  NOT NULL,
+    description    varchar(1000) NOT NULL,
+    capacity       int(11)       NOT NULL,
+    price_in_cents int(11)       NOT NULL,
+    picture_name   varchar(300)  NOT NULL,
+    PRIMARY KEY (id),
+    foreign key (organiser_id)
+        references logins (id)
 );
 
 #creating roles and their permissions
