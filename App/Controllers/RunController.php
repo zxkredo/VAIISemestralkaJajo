@@ -5,8 +5,11 @@ namespace App\Controllers;
 use App\Core\AControllerBase;
 use App\Core\HTTPException;
 use App\Core\Responses\Response;
+use App\Helpers\FileStorage;
+use App\Helpers\FormChecker;
 use App\Helpers\PermissionChecker;
 use App\Models\Login;
+use App\Models\Run;
 
 class RunController extends AControllerBase
 {
@@ -45,12 +48,34 @@ class RunController extends AControllerBase
         return $this->html();
     }
 
+    /**
+     * @throws HTTPException
+     * @throws \Exception
+     */
     public function add(): Response
     {
-        throw new HTTPException(500, 'Not implemented.');
+        $formData = $this->app->getRequest()->getPost();
+        if (FormChecker::checkAllRunForm($formData, $this->request()->getFiles())) {
+            FormChecker::sanitizeAllRunForm($formData, $this->request()->getFiles(),$name, $location, $description, $capacity, $price_in_cents, $picture_name);
+            $newRun = new Run();
+            $newRun->setName($name);
+            $newRun->setLocation($location);
+            $newRun->setDescription($description);
+            $newRun->setCapacity($capacity);
+            $newRun->setPriceInCents($price_in_cents);
+
+            FileStorage::saveFile($this->request()->getFiles()['picture']);
+            $newRun->setPictureName($picture_name);
+            $newRun->save();
+        }
+        else {
+            throw new HTTPException(400, "Bad request");
+        }
+        return $this->redirect($this->url("run.index"));
     }
     public function edit(): Response
     {
+        //only the organiser who created the run can edit / or admin
         throw new HTTPException(500, 'Not implemented.');
     }
     public function delete(): Response

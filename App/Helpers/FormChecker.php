@@ -123,7 +123,7 @@ class FormChecker
         }
     }
 
-    public static function sanitizeAll($formData, &$name, &$surname, &$gender, &$birthDate, &$street, &$city, &$postalCode, &$email, &$password) : void
+    public static function sanitizeAllNastaveniaForm($formData, &$name, &$surname, &$gender, &$birthDate, &$street, &$city, &$postalCode, &$email, &$password) : void
     {
         self::sanitizeUpdatePersonalDetail($formData, $name, $surname, $birthDate, $street, $city, $postalCode);
         self::sanitizeUpdateLogin($formData, $email, $password);
@@ -131,5 +131,60 @@ class FormChecker
         if (!is_null($formData['gender'])) {
             $gender = trim(strip_tags($formData['gender']));
         }
+    }
+
+    public static function checkAllRunForm(array $formData, array $files) : bool
+    {
+        if (self::checkSubmit($formData)
+            || !isset($formData['name'])
+            || !isset($formData['location'])
+            || !isset($formData['description'])
+            || !isset($formData['capacity'])
+            || !isset($formData['price_in_cents'])
+            || !isset($files['picture']['name'])
+        ) {
+            return false;
+        }
+
+        if (empty($formData['name'])
+            || empty($formData['location'])
+            || empty($formData['description'])
+            || empty($formData['capacity'])
+            || empty($formData['price_in_cents'])
+            || empty($files['picture']['name'])
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public static function sanitizeAllRunForm(array $formData, array $files, &$name, &$location, &$description, &$capacity, &$price_in_cents, &$picture_name) : void
+    {
+        if (!is_null($formData['name']))
+        {
+            $name = trim(strip_tags($formData['name']));
+        }
+        if (!is_null($formData['location']))
+        {
+            $location = trim(strip_tags($formData['location']));
+        }
+        if (!is_null($formData['description']))
+        {
+            $description = trim(strip_tags($formData['description']));
+        }
+        if (!is_null($formData['capacity']))
+        {
+            $capacity = (int)trim(strip_tags($formData['capacity']));
+        }
+        if (!is_null($formData['price_in_cents']))
+        {
+            $price_in_cents = (int)trim(strip_tags($formData['price_in_cents']));
+        }
+        if (!is_null($files['picture']['name']))
+        {
+            $picture_name = trim(htmlspecialchars($files['picture']['name']));
+        }
+
     }
 }
