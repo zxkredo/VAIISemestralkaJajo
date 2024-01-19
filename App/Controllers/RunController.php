@@ -73,10 +73,53 @@ class RunController extends AControllerBase
         }
         return $this->redirect($this->url("run.index"));
     }
+
+    /**
+     * @throws HTTPException
+     */
     public function edit(): Response
     {
+        $formData = $this->app->getRequest()->getPost();
+        if (!isset($formData['id']) || is_null($formData['id']))
+        {
+            throw new HTTPException(400, "Bad request");
+        }
+        $runId = $formData['id'];
+
+        $run = null;
+        try {
+            $run = Run::getOne($runId);
+        }
+        catch (\Exception $e)
+        {
+            throw new HTTPException(400, "Bad request");
+        }
+
         //only the organiser who created the run can edit / or admin
-        throw new HTTPException(500, 'Not implemented.');
+        if ($run->getOrganiserId() != $this->app->getAuth()->getLoggedUserId() || PermissionChecker::isAdmin($this->app->getAuth()->getLoggedUserId()))
+        {
+            throw new HTTPException(403, "Unauthorized");
+        }
+
+        if (FormChecker::checkAllRunUpdateForm($formData)) {
+            FormChecker::sanitizeAllRunUpdateForm($formData, $this->request()->getFiles(), $name, $location, $description, $capacity, $price_in_cents, $picture_name);
+            $run->setName($name);
+            $run->setLocation($location);
+            $run->setDescription($description);
+            $run->setCapacity($capacity);
+            $run->setPriceInCents($price_in_cents);
+            if ($picture_name != "")
+            {
+                FileStorage::deleteFile($run->getPictureName());
+                FileStorage::saveFile($this->request()->getFiles()['picture']);
+                $run->setPictureName($picture_name);
+            }
+            $run->save();
+        }
+        else {
+            throw new HTTPException(400, "Bad request");
+        }
+        return $this->redirect($this->url("run.view"));
     }
     public function delete(): Response
     {
