@@ -68,6 +68,7 @@ class RunController extends AControllerBase
         if (FormChecker::checkAllRunForm($formData, $this->request()->getFiles())) {
             FormChecker::sanitizeAllRunForm($formData, $this->request()->getFiles(),$name, $location, $description, $capacity, $price_in_cents, $picture_name);
             $newRun = new Run();
+            $newRun->setOrganiserId($this->app->getAuth()->getLoggedUserId());
             $newRun->setName($name);
             $newRun->setLocation($location);
             $newRun->setDescription($description);
