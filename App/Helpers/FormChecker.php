@@ -98,7 +98,7 @@ class FormChecker
     }
     public static function sanitizeUpdatePersonalDetail($formData, &$name, &$surname, &$birthDate, &$street, &$city, &$postalCode) : void
     {
-        if (!is_null($formData['surname']))
+        if (!is_null($formData['name']))
         {
             $name = trim(strip_tags($formData['name']));
         }
