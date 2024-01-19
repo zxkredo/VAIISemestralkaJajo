@@ -1,14 +1,19 @@
 #deleting tables if they exist
+drop table IF EXISTS rolepermissions;
+
+#asociative entities
+drop table IF EXISTS runparticipants;
+drop table IF EXISTS userroles;
+drop table IF EXISTS logins;
+
+drop table IF EXISTS roles;
+drop table IF EXISTS permissions;
+drop table IF EXISTS runs;
+
+#hitorical
 drop table IF EXISTS admins;
 drop table IF EXISTS runners;
 drop table IF EXISTS personaldetails;
-drop table IF EXISTS logins;
-drop table IF EXISTS roles;
-drop table IF EXISTS permissions;
-drop table IF EXISTS rolepermissions;
-drop table IF EXISTS userroles;
-drop table IF EXISTS runs;
-drop table IF EXISTS runparticipants;
 
 #creating database tables
 CREATE TABLE logins
