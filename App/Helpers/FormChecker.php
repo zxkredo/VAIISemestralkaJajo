@@ -133,7 +133,7 @@ class FormChecker
         }
     }
 
-    public static function checkAllRunForm(array $formData, array $files) : bool
+    public static function checkAllRunUpdateForm(array $formData) : bool
     {
         if (self::checkSubmit($formData)
             || !isset($formData['name'])
@@ -141,7 +141,6 @@ class FormChecker
             || !isset($formData['description'])
             || !isset($formData['capacity'])
             || !isset($formData['price_in_cents'])
-            || !isset($files['picture']['name'])
         ) {
             return false;
         }
@@ -151,7 +150,6 @@ class FormChecker
             || empty($formData['description'])
             || empty($formData['capacity'])
             || empty($formData['price_in_cents'])
-            || empty($files['picture']['name'])
         ) {
             return false;
         }
@@ -159,7 +157,7 @@ class FormChecker
         return true;
     }
 
-    public static function sanitizeAllRunForm(array $formData, array $files, &$name, &$location, &$description, &$capacity, &$price_in_cents, &$picture_name) : void
+    public static function sanitizeAllRunUpdateForm(array $formData, array $files, &$name, &$location, &$description, &$capacity, &$price_in_cents, &$picture_name): void
     {
         if (!is_null($formData['name']))
         {
@@ -181,10 +179,38 @@ class FormChecker
         {
             $price_in_cents = (int)trim(strip_tags($formData['price_in_cents']));
         }
-        if (!is_null($files['picture']['name']))
+        if (!empty($files['picture']['name']))
         {
             $picture_name = trim(htmlspecialchars($files['picture']['name']));
         }
+        else
+        {
+            $picture_name = "";
+        }
+    }
 
+
+    public static function checkAllRunForm(array $formData, array $files) : bool
+    {
+        if (!self::checkAllRunUpdateForm($formData)
+        ) {
+            return false;
+        }
+        if (!isset($files['picture']['name'])
+        ) {
+            return false;
+        }
+
+        if (empty($files['picture']['name'])
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public static function sanitizeAllRunForm(array $formData, array $files, &$name, &$location, &$description, &$capacity, &$price_in_cents, &$picture_name) : void
+    {
+        self::sanitizeAllRunUpdateForm($formData, $files, $name, $location, $description, $capacity, $price_in_cents, $picture_name);
     }
 }
