@@ -39,6 +39,12 @@ $runs = $data['runs']
                     <button name="submit" id="submitButtonView" type="submit" class="btn btn-primary">Zobraziť detaily</button>
                 </form>
             <?php endif;?>
+            <?php if ($auth->isLogged() && \App\Helpers\PermissionChecker::canDeleteRuns(App\Models\Login::getOne($auth->getLoggedUserId()))) : ?>
+                <form id="deleteForm" class="row g-3 needs-validation" method="post" action="<?= $link->url("delete") ?>">
+                    <input type="hidden" id="runId" name="id" value="<?=$run->getId()?>">
+                    <button name="submit" id="submitButtonLeave" type="submit" class="btn btn-danger">Zmazať</button>
+                </form>
+            <?php endif;?>
         </div>
     </div>
 <?php endforeach; ?>
