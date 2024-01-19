@@ -20,7 +20,7 @@ class RunController extends AControllerBase
         {
             case 'index':
             case 'view':
-                return $this->app->getAuth()->isLogged();
+                return true;
             case 'create':
             case 'add':
             case 'edit':
