@@ -8,6 +8,7 @@ drop table IF EXISTS permissions;
 drop table IF EXISTS rolepermissions;
 drop table IF EXISTS userroles;
 drop table IF EXISTS runs;
+drop table IF EXISTS runparticipants;
 
 #creating database tables
 CREATE TABLE logins
@@ -77,6 +78,18 @@ CREATE TABLE runs
     picture_name   varchar(300)  NOT NULL,
     PRIMARY KEY (id),
     foreign key (organiser_id)
+        references logins (id)
+);
+
+CREATE TABLE runparticipants
+(
+    id       int(11) NOT NULL AUTO_INCREMENT,
+    run_id   int(11) NOT NULL,
+    login_id int(11) NOT NULL,
+    PRIMARY KEY (id),
+    foreign key (run_id)
+        references runs (id),
+    foreign key (login_id)
         references logins (id)
 );
 
