@@ -95,7 +95,6 @@ class RunnerController extends AControllerBase
             throw new HTTPException(403, "Forbidden");
         }
 
-        UserRole::removeAllRolesFromUser($login);
         $login->delete();
         $this->app->getAuth()->logout();
         return $this->redirect($this->url("home.index"));
