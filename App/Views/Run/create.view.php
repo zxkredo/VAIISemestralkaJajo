@@ -6,7 +6,7 @@
 /** @var \App\Core\LinkGenerator $link */
 ?>
 <div class="col-xl-6">
-    <form id="runnerForm" class="row g-3 needs-validation" method="post" action="<?= $link->url('run.add') ?>">
+    <form id="runForm" class="row g-3 needs-validation" method="post" action="<?= $link->url('run.add') ?>">
         <div class="card-body p-md-5 text-black">
             <h3 class="mb-5 text-uppercase">Pridanie behu</h3>
             <div class="form-outline mb-4">
@@ -20,7 +20,7 @@
             </div>
 
             <div class="form-outline mb-4">
-                <textarea name="description" id="location" class="form-control form-control-lg" required></textarea>
+                <textarea name="description" id="description" class="form-control form-control-lg" required></textarea>
                 <label class="form-label" for="description">Popis</label>
             </div>
 
