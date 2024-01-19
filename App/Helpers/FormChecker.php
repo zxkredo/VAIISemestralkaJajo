@@ -6,13 +6,18 @@ use DateTime;
 
 class FormChecker
 {
+    /**
+     * Returns true if submit is in form.
+     * @param $formData
+     * @return bool True if submit is present
+     */
     public static function checkSubmit($formData) : bool
     {
-        return !isset($formData['submit']);
+        return isset($formData['submit']);
     }
     public static function checkUpdatePersonalDetailForm($formData): bool
     {
-        if (self::checkSubmit($formData)
+        if (!self::checkSubmit($formData)
             || !isset($formData['name'])
             || !isset($formData['surname'])
             || !isset($formData['birthDate'])
@@ -48,7 +53,7 @@ class FormChecker
     }
     public static function checkUpdateLoginForm($formData): bool
     {
-        if (self::checkSubmit($formData)
+        if (!self::checkSubmit($formData)
             ||!isset($formData['password'])
             || !isset($formData['email'])
         ) {
@@ -135,7 +140,7 @@ class FormChecker
 
     public static function checkAllRunUpdateForm(array $formData) : bool
     {
-        if (self::checkSubmit($formData)
+        if (!self::checkSubmit($formData)
             || !isset($formData['name'])
             || !isset($formData['location'])
             || !isset($formData['description'])

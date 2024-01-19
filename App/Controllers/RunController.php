@@ -80,7 +80,7 @@ class RunController extends AControllerBase
     public function edit(): Response
     {
         $formData = $this->app->getRequest()->getPost();
-        if (!isset($formData['id']) || is_null($formData['id']))
+        if (!FormChecker::checkRunId($formData))
         {
             throw new HTTPException(400, "Bad request");
         }

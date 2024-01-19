@@ -83,7 +83,7 @@ class RunnerController extends AControllerBase
     public function unregister() : Response
     {
         $formData = $this->app->getRequest()->getPost();
-        if (FormChecker::checkSubmit($formData))
+        if (!FormChecker::checkSubmit($formData))
         {
             throw new HTTPException(400, "Bad request");
         }
