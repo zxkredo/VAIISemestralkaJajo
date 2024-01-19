@@ -42,3 +42,7 @@ $runs = $data['runs']
         </div>
     </div>
 <?php endforeach; ?>
+
+<?php if ($auth->isLogged() && \App\Helpers\PermissionChecker::canCreateRuns(App\Models\Login::getOne($auth->getLoggedUserId()))) : ?>
+    <a href="<?= $link->url("create")?>" class="btn btn-primary">Vytvoriť nový beh</a>
+<?php endif ?>

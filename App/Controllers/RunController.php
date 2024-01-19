@@ -52,6 +52,11 @@ class RunController extends AControllerBase
         ]);
     }
 
+    public function create(): Response
+    {
+        return $this->html();
+    }
+
     /**
      * @throws HTTPException
      * @throws \Exception
