@@ -45,6 +45,7 @@ class RunController extends AControllerBase
     public function index(): Response
     {
         //Shows all available runs, for organisers a button to add a run
+        //TODO send list of runs
         return $this->html();
     }
 
@@ -84,14 +85,8 @@ class RunController extends AControllerBase
         {
             throw new HTTPException(400, "Bad request");
         }
-        $runId = $formData['id'];
 
-        $run = null;
-        try {
-            $run = Run::getOne($runId);
-        }
-        catch (\Exception $e)
-        {
+        if (!self::tryGetRun($formData, $run)) {
             throw new HTTPException(400, "Bad request");
         }
 
@@ -121,9 +116,33 @@ class RunController extends AControllerBase
         }
         return $this->redirect($this->url("run.view"));
     }
+
+    /**
+     * @throws HTTPException
+     * @throws \Exception
+     */
     public function delete(): Response
     {
-        throw new HTTPException(500, 'Not implemented.');
+        $formData = $this->app->getRequest()->getPost();
+
+        if (!PermissionChecker::canDeleteRuns(Login::getOne($this->app->getAuth()->getLoggedUserId()))) {
+            throw new HTTPException(403, 'Unauthorized');
+        }
+
+        if (!FormChecker::checkSubmit($formData)) {
+            throw new HTTPException(400, "Bad request");
+        }
+
+        if (!FormChecker::checkRunId($formData)) {
+            throw new HTTPException(400, "Bad request");
+        }
+
+        if (!self::tryGetRun($formData, $run)) {
+            throw new HTTPException(400, "Bad request");
+        }
+        $run->delete();
+
+        return $this->redirect($this->url("run.index"));
     }
     public function view() :Response
     {
@@ -144,4 +163,17 @@ class RunController extends AControllerBase
         throw new HTTPException(500, 'Not implemented.');
     }
 
+    private static function tryGetRun(array $formData, ?Run &$run) : bool
+    {
+        $runId = $formData['id'];
+        try {
+            $run = Run::getOne($runId);
+        }
+        catch (\Exception $e)
+        {
+            return false;
+        }
+
+        return true;
+    }
 }

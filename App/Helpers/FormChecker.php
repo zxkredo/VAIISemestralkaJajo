@@ -218,4 +218,9 @@ class FormChecker
     {
         self::sanitizeAllRunUpdateForm($formData, $files, $name, $location, $description, $capacity, $price_in_cents, $picture_name);
     }
+
+    public static function checkRunId(array $formData) : bool
+    {
+        return isset($formData['id']);
+    }
 }
