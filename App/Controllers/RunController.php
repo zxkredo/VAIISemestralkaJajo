@@ -15,6 +15,7 @@ class RunController extends AControllerBase
         switch ($action)
         {
             case 'index':
+            case 'view':
                 return $this->app->getAuth()->isLogged();
             case 'add':
             case 'edit':
@@ -40,6 +41,7 @@ class RunController extends AControllerBase
      */
     public function index(): Response
     {
+        //Shows all available runs, for organisers a button to add a run
         return $this->html();
     }
 
@@ -55,8 +57,14 @@ class RunController extends AControllerBase
     {
         throw new HTTPException(500, 'Not implemented.');
     }
+    public function view() :Response
+    {
+        //shows public information about a run
+        throw new HTTPException(500, 'Not implemented.');
+    }
     public function viewDetails(): Response
     {
+        //shows more specific details about a run, organisers will have an option to update them
         throw new HTTPException(500, 'Not implemented.');
     }
     public function join(): Response
