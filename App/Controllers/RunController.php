@@ -170,10 +170,30 @@ class RunController extends AControllerBase
             'run' => $run
         ]);
     }
+
+    /**
+     * @throws HTTPException
+     */
     public function viewDetails(): Response
     {
         //shows more specific details about a run, organisers will have an option to update them
-        throw new HTTPException(500, 'Not implemented.');
+        $formData = $this->app->getRequest()->getPost();
+
+        if (!FormChecker::checkSubmit($formData)) {
+            throw new HTTPException(400, "Bad request");
+        }
+
+        if (!FormChecker::checkRunId($formData)) {
+            throw new HTTPException(400, "Bad request");
+        }
+
+        if (!self::tryGetRun($formData, $run)) {
+            throw new HTTPException(400, "Bad request");
+        }
+
+        return $this->html([
+            'run' => $run
+        ]);
     }
     public function join(): Response
     {
