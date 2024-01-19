@@ -42,12 +42,14 @@ class RunController extends AControllerBase
 
     /**
      * @inheritDoc
+     * @throws \Exception
      */
     public function index(): Response
     {
         //Shows all available runs, for organisers a button to add a run
-        //TODO send list of runs
-        return $this->html();
+        return $this->html([
+            'runs' => Run::getAll()
+        ]);
     }
 
     /**
