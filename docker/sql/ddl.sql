@@ -1,19 +1,21 @@
 #deleting tables if they exist
-drop table IF EXISTS rolepermissions;
 
-#asociative entities
-drop table IF EXISTS runparticipants;
-drop table IF EXISTS userroles;
-drop table IF EXISTS logins;
-
-drop table IF EXISTS roles;
-drop table IF EXISTS permissions;
-drop table IF EXISTS runs;
-
-#hitorical
+#historical
 drop table IF EXISTS admins;
 drop table IF EXISTS runners;
 drop table IF EXISTS personaldetails;
+
+#asociative entities
+drop table IF EXISTS rolepermissions;
+drop table IF EXISTS runparticipants;
+drop table IF EXISTS userroles;
+
+#runs before logins because of foreign key
+drop table IF EXISTS runs;
+
+drop table IF EXISTS logins;
+drop table IF EXISTS roles;
+drop table IF EXISTS permissions;
 
 #creating database tables
 CREATE TABLE logins
@@ -127,11 +129,18 @@ values (1,3),
        (3,5),
        (4,5);
 
-#Filling up tables with test values, admin test password is jeff
+#Filling up tables with test values, test passwords are jeff
 insert into logins(login, password, name, surname, gender, birthDate, street, city, postalCode)
 values ('admin@admin.com', '$2y$10$h1.H9qYm92hDGy6./SWzOOGSZO2M1taKn6Wm1YTrLmBJ8/uNwkV.m', 'Jeff', 'Landshark', 'other',
+        '2000-12-12 09:32:24', 'Luke\'s Bar', 'Gotham', '01112'),
+       ('jeff@marvel.snap', '$2y$10$h1.H9qYm92hDGy6./SWzOOGSZO2M1taKn6Wm1YTrLmBJ8/uNwkV.m', 'Jeff', 'Landshark', 'other',
         '2000-12-12 09:32:24', 'Luke\'s Bar', 'Gotham', '01112');
 
 #Admin gets the admin role
 insert into userroles(login_id, role_id)
 values (1,1);
+
+#Organiser + runner
+insert into userroles(login_id, role_id)
+values (2,2),
+       (2,3);
