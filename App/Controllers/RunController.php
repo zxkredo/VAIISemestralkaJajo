@@ -74,9 +74,7 @@ class RunController extends AControllerBase
             $newRun->setDescription($description);
             $newRun->setCapacity($capacity);
             $newRun->setPriceInCents($price_in_cents);
-
-            FileStorage::saveFile($this->request()->getFiles()['picture']);
-            $newRun->setPictureName($picture_name);
+            $newRun->setPictureName(FileStorage::saveFile($this->request()->getFiles()['picture']));
             $newRun->save();
         }
         else {
