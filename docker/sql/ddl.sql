@@ -48,9 +48,9 @@ CREATE TABLE userroles
     role_id  int(11) NOT NULL,
     PRIMARY KEY (id),
     foreign key (login_id)
-        references logins (id),
+        references logins (id) ON DELETE CASCADE,
     foreign key (role_id)
-        references roles (id)
+        references roles (id) ON DELETE CASCADE
 );
 
 CREATE TABLE permissions
@@ -68,9 +68,9 @@ CREATE TABLE rolepermissions
     permission_id int(11) NOT NULL,
     PRIMARY KEY (id),
     foreign key (role_id)
-        references roles (id),
+        references roles (id) ON DELETE CASCADE,
     foreign key (permission_id)
-        references permissions (id)
+        references permissions (id) ON DELETE CASCADE
 );
 
 CREATE TABLE runs
@@ -85,7 +85,7 @@ CREATE TABLE runs
     picture_name   varchar(300)  NOT NULL,
     PRIMARY KEY (id),
     foreign key (organiser_id)
-        references logins (id)
+        references logins (id) ON DELETE CASCADE
 );
 
 CREATE TABLE runparticipants
@@ -95,9 +95,9 @@ CREATE TABLE runparticipants
     login_id int(11) NOT NULL,
     PRIMARY KEY (id),
     foreign key (run_id)
-        references runs (id),
+        references runs (id) ON DELETE CASCADE,
     foreign key (login_id)
-        references logins (id)
+        references logins (id) ON DELETE CASCADE
 );
 
 #creating roles and their permissions
