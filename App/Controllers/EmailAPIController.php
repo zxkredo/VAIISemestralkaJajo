@@ -24,7 +24,8 @@ class EmailAPIController extends AControllerBase
     {
         $email = $this->request()->getValue('email');
         FormChecker::sanitizeEmail($email);
-        if (is_null(Login::getByLogin($email)))
+        if (is_null(Login::getByLogin($email)) ||
+            ($this->app->getAuth()->isLogged() && $this->app->getAuth()->getLoggedUserName() == $email))
         {
             return $this->json(true);
         }
