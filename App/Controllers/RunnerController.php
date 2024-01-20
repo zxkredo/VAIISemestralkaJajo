@@ -69,6 +69,10 @@ class RunnerController extends AControllerBase
         if (FormChecker::checkUpdateLoginForm($formData)) {
             FormChecker::sanitizeUpdateLogin($formData,  $email, $password,);
             $login = Login::getOne($this->app->getAuth()->getLoggedUserId());
+            if (!is_null(Login::getByLogin($email)) && $login->getLogin() != $email)
+            {
+                throw new HTTPException(400, "Bad request, email already in use");
+            }
             $login->setLogin($email);
             $login->setPassword(password_hash($password, PASSWORD_DEFAULT));
             $login->save();
