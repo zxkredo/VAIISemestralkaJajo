@@ -1,5 +1,10 @@
 import {EmailChecker} from "./EmailChecker.js";
 
+document.emailChecker = new EmailChecker('email', 'submitButton2', 'emailError');
+document.getElementById('runnerForm').onsubmit = sendLoginDetailForm;
+
+document.getElementById('personalDetailForm').onsubmit = sendPersonalDetailForm;
+
 function checkForm() {
     const password = document.getElementById("password");
     const passwordRepeat = document.getElementById("passwordRepeat");
@@ -15,11 +20,92 @@ function checkForm() {
     } else {
         error.hidden = true;
         error.innerText = "";
+        return true;
     }
 }
 
 
-document.emailChecker = new EmailChecker('email', 'submitButton2', 'emailError');
-document.getElementById('runnerForm').onsubmit = checkForm;
+function sendLoginDetailForm() {
+    if (checkForm()) {
+        disableUserInteractions();
+        // Get form data
+        const formData = new FormData(document.getElementById('runnerForm'));
+        formData.append('submit', '');
+        let apiEndPoint = document.getElementById('runnerForm').action;
+        // Make a POST request using Fetch API
+        fetch(apiEndPoint, {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Nastala chyba na strane servera ${response.status} ${response.statusText}`);
+                }
+                // Return the response as text
+                return response.text();
+            })
+            .then(data => {
+                // Handle the response data
+                alert('Úspešne ste si zmenili osobné údaje');
+            })
+            .catch(error => {
+                // Handle errors
+                console.error('Error:', error);
+                alert('Nastala chyba pri spracovaní dát zo servera');
+            })
+            .finally(() => {
+                // Enable user interactions after the promise is handled
+                document.getElementById('password').value = "";
+                document.getElementById("passwordRepeat").value = "";
+                enableUserInteractions();
+            });
+    }
 
+    return false;
+}
 
+function sendPersonalDetailForm() {
+    disableUserInteractions();
+    // Get form data
+    const formData = new FormData(document.getElementById('personalDetailForm'));
+    formData.append('submit', '');
+    let apiEndPoint = document.getElementById('personalDetailForm').action;
+    // Make a POST request using Fetch API
+    fetch(apiEndPoint, {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Nastala chyba na strane servera ${response.status} ${response.statusText}`);
+            }
+            // Return the response as text
+            return response.text();
+        })
+        .then(data => {
+            // Handle the response data
+
+            alert('Úspešne ste si zmenili prihlasovanie údaje');
+        })
+        .catch(error => {
+            // Handle errors
+            console.error('Error:', error);
+            alert('Nastala chyba pri spracovaní dát zo servera');
+        })
+        .finally(() => {
+            // Enable user interactions after the promise is handled
+            enableUserInteractions();
+        });
+    return false;
+}
+
+function disableUserInteractions() {
+    document.getElementById('submitButton1').disabled = true;
+    document.getElementById('submitButton2').disabled = true;
+
+}
+
+function enableUserInteractions() {
+    document.getElementById('submitButton1').disabled = false;
+    document.getElementById('submitButton2').disabled = false;
+}
