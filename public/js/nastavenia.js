@@ -100,12 +100,41 @@ function sendPersonalDetailForm() {
 }
 
 function disableUserInteractions() {
-    document.getElementById('submitButton1').disabled = true;
-    document.getElementById('submitButton2').disabled = true;
+    // Disable buttons and inputs in all forms
+    const forms = document.getElementsByTagName('form');
+    for (let i = 0; i < forms.length; i++) {
+        const form = forms[i];
 
+        // Disable text input fields
+        const textInputs = form.getElementsByTagName('input');
+        for (let j = 0; j < textInputs.length; j++) {
+            textInputs[j].disabled = true;
+        }
+
+        // Disable buttons
+        const buttons = form.getElementsByTagName('button');
+        for (let j = 0; j < buttons.length; j++) {
+            buttons[j].disabled = true;
+        }
+    }
 }
 
 function enableUserInteractions() {
-    document.getElementById('submitButton1').disabled = false;
-    document.getElementById('submitButton2').disabled = false;
+    // Enable buttons and inputs in all forms
+    const forms = document.getElementsByTagName('form');
+    for (let i = 0; i < forms.length; i++) {
+        const form = forms[i];
+
+        // Disable text input fields
+        const textInputs = form.getElementsByTagName('input');
+        for (let j = 0; j < textInputs.length; j++) {
+            textInputs[j].disabled = false;
+        }
+
+        // Disable buttons
+        const buttons = form.getElementsByTagName('button');
+        for (let j = 0; j < buttons.length; j++) {
+            buttons[j].disabled = false;
+        }
+    }
 }
