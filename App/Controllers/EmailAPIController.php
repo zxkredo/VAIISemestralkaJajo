@@ -26,11 +26,11 @@ class EmailAPIController extends AControllerBase
         FormChecker::sanitizeEmail($email);
         if (is_null(Login::getByLogin($email)))
         {
-            return $this->json(false);
+            return $this->json(true);
         }
         else
         {
-            return $this->json(true);
+            return $this->json(false);
         }
     }
 }
