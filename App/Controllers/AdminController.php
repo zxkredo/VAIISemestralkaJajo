@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use App\Core\AControllerBase;
 use App\Core\Responses\Response;
+use App\Helpers\PermissionChecker;
+use App\Models\Login;
 
 /**
  * Class HomeController
@@ -19,8 +21,8 @@ class AdminController extends AControllerBase
      */
     public function authorize($action)
     {
-        //TODO only admins will be able to log in
-        return false;
+        return $this->app->getAuth()->isLogged() &&
+            PermissionChecker::isAdmin(Login::getOne($this->app->getAuth()->getLoggedUserId()));
     }
 
     /**
