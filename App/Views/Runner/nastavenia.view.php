@@ -6,7 +6,7 @@
 /** @var \App\Core\LinkGenerator $link */
 $login = $data['login'];
 ?>
-<script src="public/js/formCheckPassword.js" defer></script>
+<script src="public/js/nastavenia.js" defer type="module"></script>
 <div class="container-fluid">
         <div class="col">
             <h1>
@@ -75,28 +75,28 @@ $login = $data['login'];
                                     <div class="card-body p-md-5 text-black">
                                         <h3 class="mb-5 text-uppercase">Úprava loginu</h3>
                                         <div class="row">
-                                        <div class="form-outline mb-4">
-                                            <input value="<?= $login->getLogin() ?>" name="email" type="email" id="email" class="form-control form-control-lg" required/>
-                                            <label class="form-label" for="email">Email</label>
-                                        </div>
+                                            <div class="form-outline mb-4">
+                                                <input value="<?= $login->getLogin() ?>" name="email" type="email" id="email" class="form-control form-control-lg" required/>
+                                                <label class="form-label" for="email">Email</label>
+                                            </div>
+                                                <span id="emailError" class="alert alert-danger" hidden>Daný email sa už používa!</span>
+                                            <div class="form-outline mb-4">
+                                                <input name="password" type="password" id="password" class="form-control form-control-lg" required/>
+                                                <label class="form-label" for="password">Nové heslo</label>
+                                            </div>
 
-                                        <div class="form-outline mb-4">
-                                            <input name="password" type="password" id="password" class="form-control form-control-lg" required/>
-                                            <label class="form-label" for="password">Nové heslo</label>
-                                        </div>
-
-                                        <div class="form-outline mb-4">
-                                            <input type="password" id="passwordRepeat" class="form-control form-control-lg" required/>
-                                            <label class="form-label" for="passwordRepeat">Zopakujte nové heslo</label>
-                                        </div>
-                                        <span id="error" class="alert alert-danger" hidden></span>
-                                        <div class="d-flex justify-content-end pt-3">
-                                            <button name="submit" id="submitButton2" type="submit" class="btn btn-warning btn-lg ms-2">Upraviť</button>
+                                            <div class="form-outline mb-4">
+                                                <input type="password" id="passwordRepeat" class="form-control form-control-lg" required/>
+                                                <label class="form-label" for="passwordRepeat">Zopakujte nové heslo</label>
+                                            </div>
+                                            <span id="error" class="alert alert-danger" hidden></span>
+                                            <div class="d-flex justify-content-end pt-3">
+                                                <button name="submit" id="submitButton2" type="submit" class="btn btn-warning btn-lg ms-2">Upraviť</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </form>
                             </div>
-
                         </div>
                     </div>
                     <?php if (\App\Helpers\PermissionChecker::canDeleteAccount($login)) : ?>

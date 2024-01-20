@@ -1,6 +1,4 @@
-'use strict'
-
-document.getElementById('runnerForm').onsubmit = checkForm;
+import {EmailChecker} from "./EmailChecker.js";
 
 function checkForm() {
     const password = document.getElementById("password");
@@ -16,3 +14,9 @@ function checkForm() {
         error.innerText = "";
     }
 }
+
+
+document.emailChecker = new EmailChecker('email', 'submitButton2', 'emailError');
+document.getElementById('runnerForm').onsubmit = checkForm;
+
+

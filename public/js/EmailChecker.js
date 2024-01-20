@@ -31,13 +31,13 @@ class EmailChecker {
 
     async checkChanges() {
         let response = await this.#emailService.checkEmailAvailability(document.getElementById(this.#emailElementId).value);
-        if (response === true)
+        if (response === false)
         {
-            document.getElementById(this.#errorElementId).hidden = true;
+            document.getElementById(this.#errorElementId).hidden = false;
         }
         else
         {
-            document.getElementById(this.#errorElementId).hidden = false;
+            document.getElementById(this.#errorElementId).hidden = true;
         }
     }
 }
