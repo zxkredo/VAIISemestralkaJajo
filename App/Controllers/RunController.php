@@ -99,7 +99,7 @@ class RunController extends AControllerBase
         }
 
         //only the organiser who created the run can edit / or admin
-        if ($run->getOrganiserId() != $this->app->getAuth()->getLoggedUserId() || PermissionChecker::isAdmin($this->app->getAuth()->getLoggedUserId()))
+        if ($run->getOrganiserId() != $this->app->getAuth()->getLoggedUserId() || PermissionChecker::isAdmin(Login::getOne($this->app->getAuth()->getLoggedUserId())))
         {
             throw new HTTPException(403, "Unauthorized");
         }
@@ -122,7 +122,7 @@ class RunController extends AControllerBase
         else {
             throw new HTTPException(400, "Bad request");
         }
-        return $this->redirect($this->url("run.view"));
+        return $this->redirect($this->url("run.index"));
     }
 
     /**
