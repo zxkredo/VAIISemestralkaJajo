@@ -6,13 +6,18 @@ use DateTime;
 
 class FormChecker
 {
+    /**
+     * Returns true if submit is in form.
+     * @param $formData
+     * @return bool True if submit is present
+     */
     public static function checkSubmit($formData) : bool
     {
-        return !isset($formData['submit']);
+        return isset($formData['submit']);
     }
     public static function checkUpdatePersonalDetailForm($formData): bool
     {
-        if (self::checkSubmit($formData)
+        if (!self::checkSubmit($formData)
             || !isset($formData['name'])
             || !isset($formData['surname'])
             || !isset($formData['birthDate'])
@@ -48,7 +53,7 @@ class FormChecker
     }
     public static function checkUpdateLoginForm($formData): bool
     {
-        if (self::checkSubmit($formData)
+        if (!self::checkSubmit($formData)
             ||!isset($formData['password'])
             || !isset($formData['email'])
         ) {
@@ -98,7 +103,7 @@ class FormChecker
     }
     public static function sanitizeUpdatePersonalDetail($formData, &$name, &$surname, &$birthDate, &$street, &$city, &$postalCode) : void
     {
-        if (!is_null($formData['surname']))
+        if (!is_null($formData['name']))
         {
             $name = trim(strip_tags($formData['name']));
         }
@@ -123,7 +128,7 @@ class FormChecker
         }
     }
 
-    public static function sanitizeAll($formData, &$name, &$surname, &$gender, &$birthDate, &$street, &$city, &$postalCode, &$email, &$password) : void
+    public static function sanitizeAllNastaveniaForm($formData, &$name, &$surname, &$gender, &$birthDate, &$street, &$city, &$postalCode, &$email, &$password) : void
     {
         self::sanitizeUpdatePersonalDetail($formData, $name, $surname, $birthDate, $street, $city, $postalCode);
         self::sanitizeUpdateLogin($formData, $email, $password);
@@ -131,5 +136,91 @@ class FormChecker
         if (!is_null($formData['gender'])) {
             $gender = trim(strip_tags($formData['gender']));
         }
+    }
+
+    public static function checkAllRunUpdateForm(array $formData) : bool
+    {
+        if (!self::checkSubmit($formData)
+            || !isset($formData['name'])
+            || !isset($formData['location'])
+            || !isset($formData['description'])
+            || !isset($formData['capacity'])
+            || !isset($formData['price_in_cents'])
+        ) {
+            return false;
+        }
+
+        if (empty($formData['name'])
+            || empty($formData['location'])
+            || empty($formData['description'])
+            || empty($formData['capacity'])
+            || empty($formData['price_in_cents'])
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public static function sanitizeAllRunUpdateForm(array $formData, array $files, &$name, &$location, &$description, &$capacity, &$price_in_cents, &$picture_name): void
+    {
+        if (!is_null($formData['name']))
+        {
+            $name = trim(strip_tags($formData['name']));
+        }
+        if (!is_null($formData['location']))
+        {
+            $location = trim(strip_tags($formData['location']));
+        }
+        if (!is_null($formData['description']))
+        {
+            $description = trim(strip_tags($formData['description']));
+        }
+        if (!is_null($formData['capacity']))
+        {
+            $capacity = (int)trim(strip_tags($formData['capacity']));
+        }
+        if (!is_null($formData['price_in_cents']))
+        {
+            $price_in_cents = (int)trim(strip_tags($formData['price_in_cents']));
+        }
+        if (!empty($files['picture']['name']))
+        {
+            $picture_name = trim(htmlspecialchars($files['picture']['name']));
+        }
+        else
+        {
+            $picture_name = "";
+        }
+    }
+
+
+    public static function checkAllRunForm(array $formData, array $files) : bool
+    {
+        if (!self::checkAllRunUpdateForm($formData)
+        ) {
+            return false;
+        }
+        if (!isset($files['picture']['name'])
+        ) {
+            return false;
+        }
+
+        if (empty($files['picture']['name'])
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public static function sanitizeAllRunForm(array $formData, array $files, &$name, &$location, &$description, &$capacity, &$price_in_cents, &$picture_name) : void
+    {
+        self::sanitizeAllRunUpdateForm($formData, $files, $name, $location, $description, $capacity, $price_in_cents, $picture_name);
+    }
+
+    public static function checkRunId(array $formData) : bool
+    {
+        return isset($formData['id']);
     }
 }

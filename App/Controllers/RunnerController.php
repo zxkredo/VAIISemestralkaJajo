@@ -83,7 +83,7 @@ class RunnerController extends AControllerBase
     public function unregister() : Response
     {
         $formData = $this->app->getRequest()->getPost();
-        if (FormChecker::checkSubmit($formData))
+        if (!FormChecker::checkSubmit($formData))
         {
             throw new HTTPException(400, "Bad request");
         }
@@ -95,7 +95,6 @@ class RunnerController extends AControllerBase
             throw new HTTPException(403, "Forbidden");
         }
 
-        UserRole::removeAllRolesFromUser($login);
         $login->delete();
         $this->app->getAuth()->logout();
         return $this->redirect($this->url("home.index"));
