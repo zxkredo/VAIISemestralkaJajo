@@ -101,5 +101,19 @@ class AuthController extends AControllerBase
         }
         return $this->redirect($this->url("auth.login"));
     }
+
+    public function checkEmailAvailability(): Response
+    {
+        $email = $this->request()->getValue('email');
+        FormChecker::sanitizeEmail($email);
+        if (is_null(Login::getByLogin($email)))
+        {
+            return $this->json(false);
+        }
+        else
+        {
+            return $this->json(true);
+        }
+    }
 }
 
