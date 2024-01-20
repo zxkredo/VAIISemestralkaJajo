@@ -4,7 +4,11 @@
 /** @var Array $data */
 /** @var \App\Models\Run $run */
 /** @var \App\Core\LinkGenerator $link */
-$canCreateRuns = $auth->isLogged() && \App\Helpers\PermissionChecker::canjoinRuns(App\Models\Login::getOne($auth->getLoggedUserId()));
+$user = App\Models\Login::getOne($auth->getLoggedUserId());
+$canCreateRuns = $auth->isLogged()
+    && \App\Helpers\PermissionChecker::canCreateRuns($user)
+    && ($run->getOrganiserId() == $auth->getLoggedUserId()
+        || \App\Helpers\PermissionChecker::isAdmin($user));
 $run = $data['run']
 ?>
 <div class="col-xl-6">
