@@ -45,7 +45,7 @@ function sendLoginDetailForm() {
                 return response.text();
             })
             .then(data => {
-                // Handle the response data
+                // Handling the response data is not necessary as it only returns values that are already in inputs
                 alert('Úspešne ste si zmenili osobné údaje');
             })
             .catch(error => {
@@ -83,8 +83,7 @@ function sendPersonalDetailForm() {
             return response.text();
         })
         .then(data => {
-            // Handle the response data
-
+            // Handling the response data is not necessary as it only returns values that are already in inputs
             alert('Úspešne ste si zmenili prihlasovanie údaje');
         })
         .catch(error => {
