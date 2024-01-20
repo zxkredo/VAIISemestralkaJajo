@@ -74,6 +74,10 @@ class AuthController extends AControllerBase
         $formData = $this->app->getRequest()->getPost();
         if (FormChecker::checkAllPersonalDetailForm($formData)) {
             FormChecker::sanitizeAllNastaveniaForm($formData, $name, $surname, $gender, $birthDate, $street, $city, $postalCode, $email, $password);
+            if (!is_null(Login::getByLogin($email)))
+            {
+                throw new HTTPException(400, "Bad request, email already in use");
+            }
             $newLogin = new Login();
             $newLogin->setLogin($email);
             $newLogin->setPassword(password_hash($password, PASSWORD_DEFAULT));

@@ -223,4 +223,9 @@ class FormChecker
     {
         return isset($formData['id']);
     }
+
+    public static function sanitizeEmail(string &$email): void
+    {
+        $email = trim(strip_tags($email));
+    }
 }
