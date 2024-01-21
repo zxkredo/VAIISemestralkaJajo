@@ -36,12 +36,12 @@ $canCreateRuns = $auth->isLogged()
             </div>
 
             <div class="form-outline mb-4">
-                <input value="<?=$run->getCapacity()?>" name="capacity" type="text" id="capacity" class="form-control form-control-lg" required <?= $canCreateRuns ? "" : "readonly"?>/>
+                <input value="<?=$run->getCapacity()?>" name="capacity" type="text" id="number" class="form-control form-control-lg" required <?= $canCreateRuns ? "" : "readonly"?>/>
                 <label class="form-label" for="capacity">Kapacita</label>
             </div>
 
             <div class="form-outline mb-4">
-                <input value="<?=$run->getPriceInCents()?>" name="price_in_cents" type="text" id="price_in_cents" class="form-control form-control-lg" required <?= $canCreateRuns ? "" : "readonly"?>/>
+                <input value="<?=$run->getPriceInCents()?>" name="price_in_cents" type="number" id="price_in_cents" class="form-control form-control-lg" required <?= $canCreateRuns ? "" : "readonly"?>/>
                 <label class="form-label" for="price_in_cents">Cena v centoch</label>
             </div>
 
