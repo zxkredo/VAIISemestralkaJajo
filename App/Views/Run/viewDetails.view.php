@@ -5,11 +5,11 @@
 /** @var \App\Models\Run $run */
 /** @var \App\Core\LinkGenerator $link */
 $user = App\Models\Login::getOne($auth->getLoggedUserId());
+$run = $data['run'];
 $canCreateRuns = $auth->isLogged()
     && \App\Helpers\PermissionChecker::canCreateRuns($user)
     && ($run->getOrganiserId() == $auth->getLoggedUserId()
         || \App\Helpers\PermissionChecker::isAdmin($user));
-$run = $data['run']
 ?>
 <div class="col-xl-6">
     <?php if ($canCreateRuns) : ?>
