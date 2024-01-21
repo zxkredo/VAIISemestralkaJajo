@@ -159,6 +159,11 @@ class FormChecker
             return false;
         }
 
+        if (!is_numeric($formData['capacity'])
+            || !is_numeric($formData['price_in_cents'])
+        ) {
+            return false;
+        }
         return true;
     }
 
