@@ -27,11 +27,11 @@ function checkForm() {
 
 function sendLoginDetailForm() {
     if (checkForm()) {
-        disableUserInteractions();
         // Get form data
         const formData = new FormData(document.getElementById('runnerForm'));
         formData.append('submit', '');
         let apiEndPoint = document.getElementById('runnerForm').action;
+        disableUserInteractions();
         // Make a POST request using Fetch API
         fetch(apiEndPoint, {
             method: 'POST',
@@ -65,11 +65,11 @@ function sendLoginDetailForm() {
 }
 
 function sendPersonalDetailForm() {
-    disableUserInteractions();
     // Get form data
     const formData = new FormData(document.getElementById('personalDetailForm'));
     formData.append('submit', '');
     let apiEndPoint = document.getElementById('personalDetailForm').action;
+    disableUserInteractions();
     // Make a POST request using Fetch API
     fetch(apiEndPoint, {
         method: 'POST',
