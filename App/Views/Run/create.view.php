@@ -25,12 +25,12 @@
             </div>
 
             <div class="form-outline mb-4">
-                <input value="" name="capacity" type="text" id="capacity" class="form-control form-control-lg" required/>
+                <input value="" name="capacity" type="number" id="capacity" class="form-control form-control-lg" required/>
                 <label class="form-label" for="capacity">Kapacita</label>
             </div>
 
             <div class="form-outline mb-4">
-                <input value="" name="price_in_cents" type="text" id="price_in_cents" class="form-control form-control-lg" required/>
+                <input value="" name="price_in_cents" type="number" id="price_in_cents" class="form-control form-control-lg" required/>
                 <label class="form-label" for="price_in_cents">Cena v centoch</label>
             </div>
 
